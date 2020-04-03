@@ -6,14 +6,19 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.net.MalformedURLException;
 
 public class Main extends Application {
 
-    // Importing FileChooser, MenuBar, Menu, MenuItem
+    // Creating/Importing Player, FileChooser, MenuBar, Menu, MenuItem
+
+    Player mediaPlayer;
+
     FileChooser mediaChooser;
     MenuBar menu;
     Menu fileMenu;
@@ -43,6 +48,19 @@ public class Main extends Application {
             // System.out.println("clicked open");
             File mediaFile = mediaChooser.showOpenDialog(primaryStage);
             System.out.println(mediaFile.getAbsolutePath());
+
+            try {
+                System.out.println(mediaFile.toURI().toURL().toExternalForm());
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
+
+            try {
+                mediaPlayer = new Player(mediaFile.toURI().toURL().toExternalForm());
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
+            root.setCenter(mediaPlayer);
         });
 
         // Add menuBar to the root
