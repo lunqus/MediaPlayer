@@ -1,44 +1,48 @@
 package application;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class Main extends Application {
 
-    // Importing menuBar, menu, openItem
+    // Importing FileChooser, MenuBar, Menu, MenuItem
+    FileChooser mediaChooser;
     MenuBar menu;
-    Menu fiileMenu;
+    Menu fileMenu;
     MenuItem openItem;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 400, 400);
 
-        // Instializing menuBar, fileMenu, openItem
+        // Initializing mediaChooser, menuBar, fileMenu, openItem
+        mediaChooser = new FileChooser();
         menu = new MenuBar();
-        fiileMenu = new Menu("file");
+        fileMenu = new Menu("file");
         openItem = new MenuItem("open");
 
-        // Add openItem to the fileMenu
-        fiileMenu.getItems().add(openItem);
+        // Add fileMenu to the menu & openItem to the fileMenu
+        menu.getMenus().add(fileMenu);
+        fileMenu.getItems().add(openItem);
 
-        // Add fileMenu to the menu
-        menu.getMenus().add(fiileMenu);
 
         // Action perform when clicked on openItem
         openItem.setOnAction((e) -> {
-            System.out.println("clicked open");
+            // System.out.println("clicked open");
+            File mediaFile = mediaChooser.showOpenDialog(primaryStage);
+            System.out.println(mediaFile.getAbsolutePath());
         });
 
         // Add menuBar to the root
