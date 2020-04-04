@@ -23,15 +23,14 @@ public class Player extends BorderPane {
         player = new MediaPlayer(media);  // play the video
         view = new MediaView(player);    // display the video
         mpane = new Pane();
+        mediaBar = new MediaBar(player);
 
         mpane.getChildren().add(view);
+
         setCenter(mpane);
+        setBottom(mediaBar);
 
         player.play();
-
-//
-//        mediaBar = new MediaBar(player);
-
 
     }
 }
