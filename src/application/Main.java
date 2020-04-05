@@ -6,7 +6,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -45,18 +44,14 @@ public class Main extends Application {
 
         // Action perform when clicked on openItem
         openItem.setOnAction((e) -> {
-            // System.out.println("clicked open");
-            File mediaFile = mediaChooser.showOpenDialog(primaryStage);
-            System.out.println(mediaFile.getAbsolutePath());
 
             try {
-                System.out.println(mediaFile.toURI().toURL().toExternalForm());
-            } catch (MalformedURLException ex) {
-                ex.printStackTrace();
-            }
-
-            try {
+                File mediaFile = mediaChooser.showOpenDialog(primaryStage);
+                if(mediaPlayer != null) {
+                    mediaPlayer.player.dispose();
+                }
                 mediaPlayer = new Player(mediaFile.toURI().toURL().toExternalForm());
+                mediaPlayer.view.setFitWidth(scene.getWidth());
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
             }
@@ -65,6 +60,12 @@ public class Main extends Application {
 
         // Add menuBar to the root
         root.setTop(menu);
+
+        // Update player screen width when adjusting
+        primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            if(mediaPlayer != null);
+            mediaPlayer.view.setFitWidth(scene.getWidth());
+        });
 
         primaryStage.setScene(scene);
         primaryStage.show();
